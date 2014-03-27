@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+图书浏览
+{% endblock %}
+
+{% block content %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>作者</th>
+                        <th>出版社</th>
+                        <th>年份</th>
+                        <th>借阅者</th>
+                        <th>是否可借</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for book in books%}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.press}}</td>
+                        <td>{{book.year}}</td>
+                        <td>{{book.username}}</td>
+                        <td>{{book.available}}</td>
+                        <td>{%if book.available%}<a class="borrow" href="javascript:book_borrow({{book.id}});"/>借书</a>{%endif%}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <ul class="pagination">
+                {%if books.has_previous%}
+                <li><a href="/?page={{books.previous_page_number}}">«</a></li>
+                {%endif%}
+                {%for page in books.paginator.page_range%}
+                <li{%ifequal page books.number%} class="active" {%endifequal%}>
+                <a href="{%ifequal page books.number%}#{%else%}/?page={{page}}{%endifequal%}">{{page}}</a>
+                </li>
+                {%endfor%}
+                {%if books.has_next%}
+                <li><a href="/page={{books.next_page_number}}">»</a></li>
+                {%endif%}
+            </ul>
+
+            <div class="modal fade" id="borrow" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/borrow/" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">图书借阅</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>请输入借阅者的姓名：</label>
+                                    <input type="text" name="username" class="form-control" />
+                                    <input type="hidden" name="id" id="bookid" class="form-control" />
+                                    <input type="hidden" name="next" id="next" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block js %}
+function book_borrow(id) {
+    $('#bookid')[0].value = id;
+    $('#next')[0].value = window.location.href;
+    $('#borrow').modal('show');
+}
+{% endblock %}

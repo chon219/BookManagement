@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html> 
+<head> 
+<meta charset="UTF-8">
+<title>图书管理系统</title> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link media="all" rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" />
+<!--
+<link media="all" rel="stylesheet" href="/static/css/bootstrap-responsive.min.css" type="text/css" />
+-->
+<style type="text/css">
+
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+body {
+  margin-top:-18px;
+  background:#016ab7;
+  opacity: 0;
+  
+  -webkit-animation:fadeIn ease-in 1;  
+  -moz-animation:fadeIn ease-in 1;
+  -ms-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  -ms-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1s;
+  -moz-animation-duration:1s;
+  -ms-animation-duration:1s;
+  animation-duration:1s;
+} 
+
+html,body{
+  padding: 0;
+  height: 100%;
+}
+a, a:visited, a:link {
+  color: #fff;
+}
+#container {
+  height: auto !important;
+  min-height:100%;
+  height:100%;
+  width: 800px;
+  max-width: 100%; 
+  margin:auto;
+  position:relative;
+}
+
+.bottom {
+  position:absolute;
+  height:3em;
+  bottom:3em;
+  width:100%; 
+  color:#fff;
+}
+
+.bottom-container {
+  font-size:13px;
+  line-height:2em;
+}
+.bottom-item {
+  float:left;
+  margin-left:1em;
+}
+a, a:visited {
+  color: #fefefe;
+}
+a:hover {
+  color: #fefefe;
+  font-weight: bold;
+}
+.modal {
+  display: block;
+}
+@media (max-width: 768px) {
+  .form-horizontal .control-group {
+    margin-bottom: 5px; 
+  }
+  .modal h2 {
+    font-size: 28px; 
+    margin: 0 0;
+  }
+}
+</style>
+</head> 
+<body>
+    <div id="container">
+
+        <form action="" method="POST" class="form-horizontal">{%csrf_token%}
+            <div class='modal'> 
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2> 图书管理系统 </h2>
+                        </div>
+                        <div class="modal-body" style="max-width:600px;">
+                            <div class="form-group{%if form.username.errors%} has-error{%endif%}">
+                                <label class="control-label col-sm-2">用户名</label>
+                                <div class="col-sm-8">
+                                    {{form.username}}
+                                </div>
+                                <label class="control-label col-sm-2">
+                                {%for error in form.username.errors%}
+                                {{error}} &nbsp;
+                                {%endfor%}
+                                </label>
+                            </div>
+                            <div class="form-group{%if form.password.errors%} has-error{%endif%}">
+                                <label class="control-label col-sm-2">密码</label>
+                                <div class="col-sm-8">
+                                    {{form.password}}
+                                </div>
+                                <label class="control-label col-sm-2">
+                                {%for error in form.password.errors%}
+                                {{error}} &nbsp;
+                                {%endfor%}
+                                </label>
+                            </div>
+                        </div> 
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">登入</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="bottom">
+            <div class="bottom-container">
+                <div class="bottom-item">
+                    <div style="text-align:center">
+                        版权所有 &copy; 2014
+                        北京邮电大学信息网络中心
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+</body>
+</html>
